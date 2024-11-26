@@ -1,0 +1,27 @@
+{
+  "name": "loogie",
+  "module": "src/index.ts",
+  "type": "module",
+  "keywords": [
+    "elysia",
+    "logger",
+    "bun",
+    "bun logger",
+    "elysia logger"
+  ],
+  "scripts": {
+    "dev": "bun --env-file=.env.development --watch src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@google-cloud/logging": "^11.2.0"
+  }
+}
