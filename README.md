@@ -15,8 +15,8 @@ Contributions are welcome! Please follow these steps to contribute:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/theyudhiztira/loogie/blob/main/LICENSE) file for details.
 
 ## Contact
 
-For any questions or suggestions, please contact [your email or contact information].
+For any questions or suggestions, please contact [theyudhiztira@gmail.com].
