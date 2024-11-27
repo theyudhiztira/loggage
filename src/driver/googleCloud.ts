@@ -1,5 +1,5 @@
 import { Logging } from '@google-cloud/logging';
-import { Loogie } from '../index';
+import { Loggage } from '../index';
 
 interface GoogleCloudProperties {
   googleProjectId: string;
@@ -95,11 +95,11 @@ class GoogleCloudLogger {
       await log.write(entry);
     } catch (error: unknown) {
       if (this.isErrorMuted) {
-        Loogie.dynamic(message, level, { driver: 'console' });
+        Loggage.dynamic(message, level, { driver: 'console' });
       } else {
         this.isErrorMuted = true;
-        Loogie.warn(`Failed to write log to Google Cloud: ${(error as Error).message}. Switching to console instead.`);
-        Loogie.dynamic(message, level, { driver: 'console' });
+        Loggage.warn(`Failed to write log to Google Cloud: ${(error as Error).message}. Switching to console instead.`);
+        Loggage.dynamic(message, level, { driver: 'console' });
       }
     }
   }

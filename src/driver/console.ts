@@ -1,4 +1,4 @@
-import type { LoogieOptions } from '..';
+import type { LoggageOptions } from '..';
 
 class ConsoleLogger {
   private static getColor(level: string): string {
@@ -14,7 +14,7 @@ class ConsoleLogger {
     }
   }
 
-  public static log(level: string, message: string, options?: LoogieOptions): void {
+  public static log(level: string, message: string, options?: LoggageOptions): void {
     const timestamp = options?.format === 'json' ? new Date().toISOString() : `\x1b[34m${new Date().toISOString()}\x1b[0m`;
     const color = options?.format === 'json' ? level : this.getColor(level);
     let logData: string;
