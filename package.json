@@ -1,5 +1,5 @@
 {
-  "name": "loogie",
+  "name": "loggage",
   "description": "A simple logger for your typescript project built with Bun!",
   "version": "0.1.0",
   "license": "MIT",
@@ -16,7 +16,7 @@
     "dist"
   ],
   "main": "dist/index.ts",
-  "types": "src/loogie.d.ts",
+  "types": "src/loggage.d.ts",
   "exports": {
     "require": "./dist/index.js",
     "import": "./dist/index.js",
@@ -25,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/theyudhiztira/loogie.git"
+    "url": "git+https://github.com/theyudhiztira/loggage.git"
   },
   "scripts": {
     "dev": "bun run --watch example/example.ts",
