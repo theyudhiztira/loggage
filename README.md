@@ -1,4 +1,4 @@
-# Loogie
+# Loggage
 
 A simple logger for your typescript project built with Bun!
 
@@ -15,7 +15,7 @@ Contributions are welcome! Please follow these steps to contribute:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/theyudhiztira/loogie/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/theyudhiztira/loggage/blob/main/LICENSE) file for details.
 
 ## Contact
 
