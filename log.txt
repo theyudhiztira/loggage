@@ -1,9 +1,0 @@
-2024-11-26T14:17:56.627Z - [LOG] - Hello, world! - instance
-2024-11-26T14:18:11.459Z - [INFO] - Hello, world! - instance
-2024-11-26T14:19:33.400Z - [INFO] - Hello, world! - instance
-2024-11-26T14:19:33.677Z - [INFO] - Hello, world! - instance
-2024-11-26T14:19:33.983Z - [INFO] - Hello, world! - instance
-2024-11-26T14:19:34.172Z - [INFO] - Hello, world! - instance
-2024-11-26T14:19:34.358Z - [INFO] - Hello, world! - instance
-2024-11-26T14:19:34.570Z - [INFO] - Hello, world! - instance
-2024-11-26T14:19:34.711Z - [INFO] - Hello, world! - instance
