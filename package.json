@@ -1,5 +1,5 @@
 {
-  "name": "loggage",
+  "name": "@theyudhiztira/loggage",
   "description": "A simple logger for your typescript project built with Bun!",
   "version": "0.1.0",
   "license": "MIT",
