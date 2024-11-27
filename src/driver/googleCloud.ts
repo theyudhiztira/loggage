@@ -1,54 +1,107 @@
 import { Logging } from '@google-cloud/logging';
-import type { LogLevel } from '../types';
-import { LogLevel as Level } from '../types';
+import { Loogie } from '../index';
 
+interface GoogleCloudProperties {
+  googleProjectId: string;
+  googleLogName: string;
+}
+
+/**
+ * A logger class for Google Cloud Logging.
+ */
 class GoogleCloudLogger {
+  /**
+   * The Logging instance for Google Cloud.
+   */
   private static logging: Logging;
-  private static logName: string | undefined;
+  /**
+   * The name of the log.
+   */
+  private static logName: string;
+  /**
+   * Flag to mute error logging.
+   */
+  private static isErrorMuted = false;
 
-  private static ensureInitialized() {
+  /**
+   * Ensures that the logger is initialized with the provided Google Cloud properties.
+   * Throws an error if the Google Cloud Project ID or Log Name is missing.
+   * 
+   * @param googleProjectId - The Google Cloud Project ID.
+   * @param googleLogName - The Google Cloud Log Name.
+   */
+  private static ensureInitialized({ googleProjectId, googleLogName }: GoogleCloudProperties): void {
     if (!this.logging || !this.logName) {
-      const projectId = process.env.GOOGLE_CLOUD_PROJECT_ID || Bun.env.GOOGLE_CLOUD_PROJECT_ID;
-      this.logName = process.env.GOOGLE_CLOUD_LOG_NAME || Bun.env.GOOGLE_CLOUD_PROJECT_ID;
-
-      if (!projectId || !this.logName) {
+      if (!googleProjectId || !googleLogName) {
         throw new Error('Missing Google Cloud Project ID or Log Name (GOOGLE_CLOUD_PROJECT_ID, GOOGLE_CLOUD_LOG_NAME)');
       }
 
-      this.logging = new Logging({ projectId });
+      this.logName = googleLogName;
+
+      try {
+        this.logging = new Logging({ projectId: googleProjectId });
+      } catch (error: unknown) {
+        throw new Error(`Failed to initialize Google Cloud Logging: ${(error as Error).message}`);
+      }
     }
   }
-
-  private static getSeverity(level: LogLevel): string {
-    switch (level) {
-      case Level.INFO:
-        return 'INFO';
-      case Level.WARN:
-        return 'WARNING';
-      case Level.ERROR:
-        return 'ERROR';
-      case Level.LOG:
-        return 'DEBUG';
-      default:
-        return 'DEFAULT';
-    }
+  
+  /**
+   * Maps the log level to the corresponding Google Cloud Logging severity.
+   * 
+   * @param level - The log level (info, warn, error, debug).
+   * @returns The corresponding severity string.
+   */
+  private static getSeverity(level: string): string {
+    const severityMap: { [key: string]: string } = {
+      info: 'INFO',
+      warn: 'WARNING',
+      error: 'ERROR',
+      debug: 'DEBUG',
+    };
+    return severityMap[level] || 'DEFAULT';
   }
 
-  public static async log(level: LogLevel, message: string, format: 'json' | 'text'): Promise<void> {
-    this.ensureInitialized();
+  /**
+   * Logs a message to Google Cloud Logging.
+   * If logging to Google Cloud fails, it falls back to console logging.
+   * 
+   * @param level - The log level (info, warn, error, debug).
+   * @param message - The log message.
+   * @param format - The format of the log message ('json' or 'text').
+   * @param googleCloudProperties - The properties required for Google Cloud Logging.
+   */
+  public static async log(
+    level: string,
+    message: string,
+    format: 'json' | 'text',
+    googleCloudProperties: GoogleCloudProperties
+  ): Promise<void> {
+    this.ensureInitialized(googleCloudProperties);
 
     const timestamp = new Date().toISOString();
     const logData = format === 'json'
       ? JSON.stringify({ timestamp, level, message }) + '\n'
       : `${timestamp} [${level.toUpperCase()}] - ${message}\n`;
 
-    const log = this.logging.log(this.logName as string);
+    const log = this.logging.log(this.logName);
     const metadata = {
       resource: { type: 'global' },
       severity: this.getSeverity(level),
     };
     const entry = log.entry(metadata, logData);
-    await log.write(entry);
+
+    try {
+      await log.write(entry);
+    } catch (error: unknown) {
+      if (this.isErrorMuted) {
+        Loogie.dynamic(message, level, { driver: 'console' });
+      } else {
+        this.isErrorMuted = true;
+        Loogie.warn(`Failed to write log to Google Cloud: ${(error as Error).message}. Switching to console instead.`);
+        Loogie.dynamic(message, level, { driver: 'console' });
+      }
+    }
   }
 }
 
