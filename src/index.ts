@@ -3,7 +3,7 @@ import FileLogger from './driver/file';
 import GoogleCloudLogger from './driver/googleCloud';
 
 /**
- * Options for configuring the Loogie logger.
+ * Options for configuring the Loggage logger.
  * 
  * This type is a union of three possible configurations:
  * 
@@ -22,7 +22,7 @@ import GoogleCloudLogger from './driver/googleCloud';
  *    - `googleProjectId`: The Google Cloud project ID.
  *    - `googleLogName`: The name of the log in Google Cloud Logging.
  */
-export type LoogieOptions = {
+export type LoggageOptions = {
   driver: 'console';
   format?: 'json' | 'text';
 } | {
@@ -38,39 +38,39 @@ export type LoogieOptions = {
 
 
 /**
- * The `Loogie` class provides logging functionality with multiple logging levels and drivers.
+ * The `Loggage` class provides logging functionality with multiple logging levels and drivers.
  * It supports logging to the console, a file, or Google Cloud Logging.
  *
  * @example
  * ```typescript
- * const logger = new Loogie({ driver: 'console' });
+ * const logger = new Loggage({ driver: 'console' });
  * logger.log('This is a log message');
  * logger.info('This is an info message');
  * logger.warn('This is a warning message');
  * logger.error('This is an error message');
  * 
- * Loogie.log('Static log message');
- * Loogie.info('Static info message');
- * Loogie.warn('Static warning message');
- * Loogie.error('Static error message');
- * Loogie.dynamic('Dynamic log message', 'debug');
+ * Loggage.log('Static log message');
+ * Loggage.info('Static info message');
+ * Loggage.warn('Static warning message');
+ * Loggage.error('Static error message');
+ * Loggage.dynamic('Dynamic log message', 'debug');
  * ```
  *
  * @remarks
- * The `Loogie` class can be instantiated with different options to specify the logging driver and other configurations.
+ * The `Loggage` class can be instantiated with different options to specify the logging driver and other configurations.
  * Static methods are also available for logging without creating an instance of the class.
  *
  * @param options - Configuration options for the logger.
  * @param options.driver - The logging driver to use ('console', 'file', 'google').
- * @param options.path - The file path to use when the 'file' driver is selected (default is 'loogie.log').
+ * @param options.path - The file path to use when the 'file' driver is selected (default is 'loggage.log').
  * @param options.format - The format of the log message ('text' or 'json').
  * @param options.googleProjectId - The Google Cloud project ID when the 'google' driver is selected.
  * @param options.googleLogName - The Google Cloud log name when the 'google' driver is selected.
  */
-export class Loogie {
-  private options: LoogieOptions;
+export class Loggage {
+  private options: LoggageOptions;
 
-  constructor(options: LoogieOptions = { driver: 'console' }) {
+  constructor(options: LoggageOptions = { driver: 'console' }) {
     this.options = options;
   }
 
@@ -116,12 +116,12 @@ export class Loogie {
    * @param message Your log message
    * @param options - Configuration options for the logger.
    * @param options.driver - The logging driver to use ('console', 'file', 'google').
-   * @param options.path - The file path to use when the 'file' driver is selected (default is 'loogie.log').
+   * @param options.path - The file path to use when the 'file' driver is selected (default is 'loggage.log').
    * @param options.format - The format of the log message ('text' or 'json').
    * @param options.googleProjectId - The Google Cloud project ID when the 'google' driver is selected.
    * @param options.googleLogName - The Google Cloud log name when the 'google' driver is selected.
    */
-  public static log(message: string, options: LoogieOptions = { driver: 'console' }): void {
+  public static log(message: string, options: LoggageOptions = { driver: 'console' }): void {
     this.executeLog('log', message, options);
   }
 
@@ -131,12 +131,12 @@ export class Loogie {
    * @param message Your log message
    * @param options - Configuration options for the logger.
    * @param options.driver - The logging driver to use ('console', 'file', 'google').
-   * @param options.path - The file path to use when the 'file' driver is selected (default is 'loogie.log').
+   * @param options.path - The file path to use when the 'file' driver is selected (default is 'loggage.log').
    * @param options.format - The format of the log message ('text' or 'json').
    * @param options.googleProjectId - The Google Cloud project ID when the 'google' driver is selected.
    * @param options.googleLogName - The Google Cloud log name when the 'google' driver is selected.
    */
-  public static info(message: string, options: LoogieOptions = { driver: 'console' }): void {
+  public static info(message: string, options: LoggageOptions = { driver: 'console' }): void {
     this.executeLog('info', message, options);
   }
 
@@ -146,12 +146,12 @@ export class Loogie {
    * @param message Your log message
    * @param options - Configuration options for the logger.
    * @param options.driver - The logging driver to use ('console', 'file', 'google').
-   * @param options.path - The file path to use when the 'file' driver is selected (default is 'loogie.log').
+   * @param options.path - The file path to use when the 'file' driver is selected (default is 'loggage.log').
    * @param options.format - The format of the log message ('text' or 'json').
    * @param options.googleProjectId - The Google Cloud project ID when the 'google' driver is selected.
    * @param options.googleLogName - The Google Cloud log name when the 'google' driver is selected.
    */
-  public static warn(message: string, options: LoogieOptions = { driver: 'console' }): void {
+  public static warn(message: string, options: LoggageOptions = { driver: 'console' }): void {
     this.executeLog('warn', message, options);
   }
 
@@ -161,12 +161,12 @@ export class Loogie {
    * @param message Your log message
    * @param options - Configuration options for the logger.
    * @param options.driver - The logging driver to use ('console', 'file', 'google').
-   * @param options.path - The file path to use when the 'file' driver is selected (default is 'loogie.log').
+   * @param options.path - The file path to use when the 'file' driver is selected (default is 'loggage.log').
    * @param options.format - The format of the log message ('text' or 'json').
    * @param options.googleProjectId - The Google Cloud project ID when the 'google' driver is selected.
    * @param options.googleLogName - The Google Cloud log name when the 'google' driver is selected.
    */
-  public static error(message: string, options: LoogieOptions = { driver: 'console' }): void {
+  public static error(message: string, options: LoggageOptions = { driver: 'console' }): void {
     this.executeLog('error', message, options);
   }
 
@@ -177,12 +177,12 @@ export class Loogie {
    * @param level Your log level ( log, info, warn, error )
    * @param options - Configuration options for the logger.
    * @param options.driver - The logging driver to use ('console', 'file', 'google').
-   * @param options.path - The file path to use when the 'file' driver is selected (default is 'loogie.log').
+   * @param options.path - The file path to use when the 'file' driver is selected (default is 'loggage.log').
    * @param options.format - The format of the log message ('text' or 'json').
    * @param options.googleProjectId - The Google Cloud project ID when the 'google' driver is selected.
    * @param options.googleLogName - The Google Cloud log name when the 'google' driver is selected.
    */
-  public static dynamic(message: string, level: string, options: LoogieOptions = { driver: 'console' }): void {
+  public static dynamic(message: string, level: string, options: LoggageOptions = { driver: 'console' }): void {
     this.executeLog(level, message, options);
   }
 
@@ -192,18 +192,18 @@ export class Loogie {
    * @param message Your log message
    * @param options - Configuration options for the logger.
    * @param options.driver - The logging driver to use ('console', 'file', 'google').
-   * @param options.path - The file path to use when the 'file' driver is selected (default is 'loogie.log').
+   * @param options.path - The file path to use when the 'file' driver is selected (default is 'loggage.log').
    * @param options.format - The format of the log message ('text' or 'json').
    * @param options.googleProjectId - The Google Cloud project ID when the 'google' driver is selected.
    * @param options.googleLogName - The Google Cloud log name when the 'google' driver is selected.
    */
-  private static executeLog(logLevel: string, message: string, options: LoogieOptions): void {
+  private static executeLog(logLevel: string, message: string, options: LoggageOptions): void {
     switch (options.driver) {
       case 'console':
         ConsoleLogger.log(logLevel, message, options);
         break;
       case 'file':
-        FileLogger.log(logLevel, message, options.path ?? 'loogie.log', options.format ?? 'text');
+        FileLogger.log(logLevel, message, options.path ?? 'loggage.log', options.format ?? 'text');
         break;
       case 'google':
         GoogleCloudLogger.log(logLevel, message, options.format ?? 'text', {
@@ -215,6 +215,6 @@ export class Loogie {
   }
 
   private executeLog(logLevel: string, message: string): void {
-    Loogie.executeLog(logLevel, message, this.options);
+    Loggage.executeLog(logLevel, message, this.options);
   }
 }
